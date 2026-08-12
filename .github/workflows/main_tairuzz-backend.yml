@@ -48,18 +48,11 @@ jobs:
         with:
           name: node-app
       
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8DF345B44082478EA0D8B1FCE1BE6B03 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A3A29031ADF54CB98D4D326F0598A61C }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_3CA0AB6F5DA3441F86490FE2F51B7F9F }}
-
-      - name: 'Deploy to Azure Web App'
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'tairuzz-backend'
-          slot-name: 'Production'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: .
+
           
