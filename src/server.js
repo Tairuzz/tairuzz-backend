@@ -1,23 +1,21 @@
-import "./loadEnv.js";      // Load .env FIRST
+import "./loadEnv.js";
 import express from "express";
 import cors from "cors";
 
 import embedConfigRouter from "./routes/embedConfig.js";
 
-const app = express();      // <-- MUST come before app.use()
+const app = express();
 
-const clientConfigRoute = require("./clientConfig");
+import clientConfigRoute from "./clientConfig.js";   // ES module version
 app.use(clientConfigRoute);
 
-app.use(cors());            // Now safe
+app.use(cors());
 app.use(express.json());
 
-// Health check
 app.get("/", (req, res) => {
   res.json({ status: "ok", message: "Tairuzz Embedded Backend running" });
 });
 
-// Routes
 app.use("/api/embed-config", embedConfigRouter);
 
 const PORT = process.env.PORT || 3000;
