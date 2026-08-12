@@ -30,7 +30,7 @@ router.get("/api/get-client-config", (req, res) => {
   }
 
   const clientId = decoded.clientId;
-  const filePath = path.join(__dirname, "../clients", `${clientId}.json`);
+  const filePath = path.join(__dirname, "../../clients", `${clientId}.json`);
 
   if (!fs.existsSync(filePath)) {
     return res.status(404).json({ error: "Client config not found" });
