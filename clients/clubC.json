@@ -1,0 +1,29 @@
+{
+  "clientName": "Club B Analytics",
+  "clientLogo": "/logos/clubB.png",
+  "accentColor": "#00aaff",
+  "tier": "Gold",
+
+  "tabs": {
+    "League Table": true,
+    "Profile": true,
+    "Performance Rank": true,
+    "Goal Impact": false,
+    "Season On Season Player": false,
+    "Season On Season Club": false,
+    "Fixture Results by XG": false,
+    "Team Results by XG": false,
+    "Title Race": false,
+    "Fixtures And Result": false,
+    "Attack Threat": false,
+    "Kpis Plot": false,
+    "Performance Metrics": false,
+    "Team Fixture Performance": true,
+    "Compare Performance Metrics": false,
+    "Goal Placement": false,
+    "Goal Categories": false,
+    "Goal Categories2": true,
+    "Goal Analysis": false,
+    "Goal Flow": true
+  }
+}
