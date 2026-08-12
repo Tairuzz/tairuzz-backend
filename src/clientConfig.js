@@ -34,4 +34,4 @@ router.get("/api/get-client-config", (req, res) => {
   res.json(config);
 });
 
-module.exports = router;
+export default router;
