@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 // Routes
 app.use("/api/embed-config", embedConfigRouter);
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
