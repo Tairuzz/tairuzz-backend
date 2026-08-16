@@ -18,7 +18,8 @@ function decodeToken(token) {
   }
 }
 
-router.get("/api/get-client-config", (req, res) => {
+// IMPORTANT: remove /api prefix here
+router.post("/get-client-config", (req, res) => {
   const token = req.headers["x-tairuzz-auth"];
   if (!token) {
     return res.status(401).json({ error: "Missing auth token" });
