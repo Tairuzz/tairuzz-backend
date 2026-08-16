@@ -2,6 +2,15 @@ import "./loadEnv.js";
 import express from "express";
 import cors from "cors";
 
+app.use(cors({
+  origin: "https://analytics.tairuzz.co.uk",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "x-tairuzz-auth"]
+}));
+
+// Handle preflight requests explicitly
+app.options("*", cors());
+
 import embedConfigRouter from "./routes/embedConfig.js";
 
 const app = express();
