@@ -20,7 +20,7 @@ import clientConfigRoute from "./clientConfig.js";
 app.use(express.json());
 
 // Routes
-app.use(clientConfigRoute);
+app.use("/api", clientConfigRoute);
 app.use("/api/embed-config", embedConfigRouter);
 
 // Health check
