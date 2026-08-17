@@ -19,6 +19,9 @@ import clientConfigRoute from "./clientConfig.js";
 
 app.use(express.json());
 
+import loginRouter from "./routes/login.js";
+app.use("/api", loginRouter);
+
 // Routes
 app.use("/api", clientConfigRoute);
 app.use("/api/embed-config", embedConfigRouter);
