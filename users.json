@@ -1,7 +1,17 @@
 [
   {
-    "email": "client1@example.com",
+    "email": "clubA@example.com",
     "password": "changeme123",
     "clientId": "clubA"
+  },
+  {
+    "email": "clubB@example.com",
+    "password": "changeme123",
+    "clientId": "clubB"
+  },
+  {
+    "email": "clubC@example.com",
+    "password": "changeme123",
+    "clientId": "clubC"
   }
 ]
