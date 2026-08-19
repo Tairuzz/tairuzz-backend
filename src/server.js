@@ -26,6 +26,9 @@ app.use("/api", loginRouter);
 app.use("/api", clientConfigRoute);
 app.use("/api/embed-config", embedConfigRouter);
 
+import getClientConfigRoute from "./routes/getClientConfig.js";
+app.use("/api", getClientConfigRoute);
+
 // Health check
 app.get("/", (req, res) => {
   res.json({ status: "ok", message: "Tairuzz Embedded Backend running" });
