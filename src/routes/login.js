@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
+import jwt from "jsonwebtoken";
 import { fileURLToPath } from "url";
 
 const router = express.Router();
@@ -26,7 +27,12 @@ router.post("/login", (req, res) => {
     return res.status(401).json({ success: false, error: "Invalid email or password" });
   }
 
-  const token = Buffer.from(JSON.stringify({ email: user.email, clientId: user.clientId })).toString("base64");
+  // Generate a real JWT
+  const token = jwt.sign(
+    { email: user.email, clientId: user.clientId },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
 
   res.json({ success: true, token, clientId: user.clientId });
 });
