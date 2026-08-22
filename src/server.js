@@ -4,30 +4,25 @@ import cors from "cors";
 
 const app = express();
 
-// FULL CORS CONFIG — this is the fix
+// CORS — updated for Bearer tokens
 app.use(cors({
   origin: "https://analytics.tairuzz.co.uk",
   methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "x-tairuzz-auth"]
+  allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// Explicitly handle preflight requests
 app.options("*", cors());
 
 import embedConfigRouter from "./routes/embedConfig.js";
-import clientConfigRoute from "./routes/clientConfig.js";
+import loginRouter from "./routes/login.js";
+import getClientConfigRoute from "./getClientConfig.js";
 
 app.use(express.json());
 
-import loginRouter from "./routes/login.js";
-app.use("/api", loginRouter);
-
 // Routes
-app.use("/api", clientConfigRoute);
-app.use("/api/embed-config", embedConfigRouter);
-
-import getClientConfigRoute from "./routes/getClientConfig.js";
+app.use("/api", loginRouter);
 app.use("/api", getClientConfigRoute);
+app.use("/api/embed-config", embedConfigRouter);
 
 // Health check
 app.get("/", (req, res) => {

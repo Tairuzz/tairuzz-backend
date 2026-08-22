@@ -16,7 +16,7 @@ router.post("/login", (req, res) => {
     return res.status(400).json({ success: false, error: "Missing credentials" });
   }
 
-  const usersPath = path.join(__dirname, "../../users.json");
+  const usersPath = path.join(__dirname, "../users.json");
   const users = JSON.parse(fs.readFileSync(usersPath, "utf8"));
 
   const user = users.find(
