@@ -15,7 +15,7 @@ app.options("*", cors());
 
 import embedConfigRouter from "./routes/embedConfig.js";
 import loginRouter from "./routes/login.js";
-import getClientConfigRoute from "./getClientConfig.js";
+import getClientConfigRoute from "./src/getClientConfig.js";
 
 app.use(express.json());
 

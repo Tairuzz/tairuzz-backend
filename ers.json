@@ -1,0 +1,83 @@
+[1mdiff --git a/src/getClientConfig.js b/src/getClientConfig.js[m
+[1mindex d44b00f..70586c0 100644[m
+[1m--- a/src/getClientConfig.js[m
+[1m+++ b/src/getClientConfig.js[m
+[36m@@ -2,9 +2,14 @@[m [mimport express from "express";[m
+ import fs from "fs";[m
+ import path from "path";[m
+ import jwt from "jsonwebtoken";[m
+[32m+[m[32mimport { fileURLToPath } from "url";[m
+ [m
+ const router = express.Router();[m
+ [m
+[32m+[m[32m// Resolve __dirname in ES modules[m
+[32m+[m[32mconst __filename = fileURLToPath(import.meta.url);[m
+[32m+[m[32mconst __dirname = path.dirname(__filename);[m
+[32m+[m
+ // Bearer auth middleware[m
+ function auth(req, res, next) {[m
+   const authHeader = req.headers.authorization;[m
+[36m@@ -31,7 +36,8 @@[m [mrouter.post("/get-client-config", auth, (req, res) => {[m
+     return res.status(400).json({ error: "clientId is required" });[m
+   }[m
+ [m
+[31m-  const configPath = path.join(process.cwd(), "clients", `${clientId}.json`);[m
+[32m+[m[32m  // Correct Azure-safe path[m
+[32m+[m[32m  const configPath = path.join(__dirname, "../clients", `${clientId}.json`);[m
+ [m
+   if (!fs.existsSync(configPath)) {[m
+     return res.status(404).json({ error: "Client config not found" });[m
+[1mdiff --git a/src/routes/login.js b/src/routes/login.js[m
+[1mindex a98bb04..9962ad6 100644[m
+[1m--- a/src/routes/login.js[m
+[1m+++ b/src/routes/login.js[m
+[36m@@ -16,7 +16,7 @@[m [mrouter.post("/login", (req, res) => {[m
+     return res.status(400).json({ success: false, error: "Missing credentials" });[m
+   }[m
+ [m
+[31m-  const usersPath = path.join(__dirname, "../../users.json");[m
+[32m+[m[32m  const usersPath = path.join(__dirname, "../users.json");[m
+   const users = JSON.parse(fs.readFileSync(usersPath, "utf8"));[m
+ [m
+   const user = users.find([m
+[1mdiff --git a/src/server.js b/src/server.js[m
+[1mindex 565b6a2..f8c25bf 100644[m
+[1m--- a/src/server.js[m
+[1m+++ b/src/server.js[m
+[36m@@ -4,30 +4,25 @@[m [mimport cors from "cors";[m
+ [m
+ const app = express();[m
+ [m
+[31m-// FULL CORS CONFIG — this is the fix[m
+[32m+[m[32m// CORS — updated for Bearer tokens[m
+ app.use(cors({[m
+   origin: "https://analytics.tairuzz.co.uk",[m
+   methods: ["GET", "POST", "OPTIONS"],[m
+[31m-  allowedHeaders: ["Content-Type", "x-tairuzz-auth"][m
+[32m+[m[32m  allowedHeaders: ["Content-Type", "Authorization"][m
+ }));[m
+ [m
+[31m-// Explicitly handle preflight requests[m
+ app.options("*", cors());[m
+ [m
+ import embedConfigRouter from "./routes/embedConfig.js";[m
+[31m-import clientConfigRoute from "./routes/clientConfig.js";[m
+[32m+[m[32mimport loginRouter from "./routes/login.js";[m
+[32m+[m[32mimport getClientConfigRoute from "./getClientConfig.js";[m
+ [m
+ app.use(express.json());[m
+ [m
+[31m-import loginRouter from "./routes/login.js";[m
+[31m-app.use("/api", loginRouter);[m
+[31m-[m
+ // Routes[m
+[31m-app.use("/api", clientConfigRoute);[m
+[31m-app.use("/api/embed-config", embedConfigRouter);[m
+[31m-[m
+[31m-import getClientConfigRoute from "./routes/getClientConfig.js";[m
+[32m+[m[32mapp.use("/api", loginRouter);[m
+ app.use("/api", getClientConfigRoute);[m
+[32m+[m[32mapp.use("/api/embed-config", embedConfigRouter);[m
+ [m
+ // Health check[m
+ app.get("/", (req, res) => {[m
