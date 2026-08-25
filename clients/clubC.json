@@ -1,9 +1,9 @@
 {
-  "clientName": "Club B Analytics",
-  "clientLogo": "/logos/clubB.png",
-  "accentColor": "#00aaff",
+  "clientName": "Club C Analytics",
+  "clientLogo": "/logos/clubC.png",
+  "accentColor": "#b8860b",
+  "sidebarColor": "#4a3a00",
   "tier": "Gold",
-
   "tabs": {
     "League Table": true,
     "Profile": true,
