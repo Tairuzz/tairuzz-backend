@@ -1,14 +1,8 @@
 import express from "express";
-import fs from "fs";
-import path from "path";
 import jwt from "jsonwebtoken";
-import { fileURLToPath } from "url";
+import { clientsContainer } from "./db.js";
 
 const router = express.Router();
-
-// Resolve __dirname in ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // Bearer auth middleware
 function auth(req, res, next) {
@@ -29,27 +23,37 @@ function auth(req, res, next) {
   }
 }
 
-router.post("/get-client-config", auth, (req, res) => {
+router.post("/get-client-config", auth, async (req, res) => {
   const { clientId } = req.body;
 
   if (!clientId) {
     return res.status(400).json({ error: "clientId is required" });
   }
 
-  // Correct Azure-safe path
-  const configPath = path.join(__dirname, "../clients", `${clientId}.json`);
+  try {
+    const { resource: client } = await clientsContainer
+      .item(clientId, clientId)
+      .read();
 
-  if (!fs.existsSync(configPath)) {
-    return res.status(404).json({ error: "Client config not found" });
+    if (!client) {
+      return res.status(404).json({ error: "Client config not found" });
+    }
+
+    // Strip Cosmos-internal fields before returning
+    const { id, _rid, _self, _etag, _attachments, _ts, clientId: cid, ...config } = client;
+
+    res.json({
+      clientId: cid,
+      email: req.user.email,
+      config
+    });
+  } catch (err) {
+    if (err.code === 404) {
+      return res.status(404).json({ error: "Client config not found" });
+    }
+    console.error("Cosmos read error:", err.message);
+    res.status(500).json({ error: "Failed to load client config" });
   }
-
-  const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-
-  res.json({
-    clientId,
-    email: req.user.email,
-    config
-  });
 });
 
 export default router;
