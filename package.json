@@ -16,5 +16,9 @@
   },
   "devDependencies": {
     "nodemon": "^3.0.0"
-  }
+  },
+  "dependencies": {
+  "@azure/cosmos": "^4.1.1",
+  ...
+}
 }
