@@ -2,6 +2,7 @@
   "clientName": "Club B Analytics",
   "clientLogo": "/logos/clubB.png",
   "accentColor": "#00aaff",
+  "sidebarColor": "#442233",
   "tier": "basic",
 
   "tabs": {

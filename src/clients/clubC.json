@@ -1,7 +1,8 @@
 {
-  "clientName": "Club C Analytics",
+  "clientName": "Club B Analytics",
   "clientLogo": "/logos/clubB.png",
   "accentColor": "#00aaff",
+  "sidebarColor": "#4a3a00",
   "tier": "Gold",
 
   "tabs": {
