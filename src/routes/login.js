@@ -12,10 +12,15 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    const { resource: user } = await usersContainer
-      .item(email, email)
-      .read()
-      .catch(() => ({ resource: null }));
+    let user = null;
+    try {
+      const result = await usersContainer.item(email, email).read();
+      user = result.resource;
+    } catch (readErr) {
+      console.error("Cosmos item read failed:", readErr.code, readErr.message);
+    }
+
+    console.log("Lookup result for", email, ":", user);
 
     if (!user || user.password !== password) {
       return res.status(401).json({ success: false, error: "Invalid email or password" });
@@ -33,5 +38,3 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ error: "Login failed" });
   }
 });
-
-export default router;
