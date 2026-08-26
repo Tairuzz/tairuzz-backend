@@ -1,6 +1,6 @@
 import express from "express";
 import jwt from "jsonwebtoken";
-import { clientsContainer } from "./db.js";
+import { clientsContainer } from "../db.js";
 
 const router = express.Router();
 
