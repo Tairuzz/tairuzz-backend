@@ -1,12 +1,12 @@
-import "./loadEnv.js";
+﻿import "./loadEnv.js";
 import express from "express";
 import cors from "cors";
 
 const app = express();
 
-// CORS — updated for Bearer tokens
+// CORS â€” updated for Bearer tokens
 app.use(cors({
-  origin: ["https://analytics.tairuzz.co.uk", "http://localhost:5173"],
+  origin: "https://analytics.tairuzz.co.uk",
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
