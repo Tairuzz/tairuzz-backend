@@ -24,7 +24,7 @@ function auth(req, res, next) {
 }
 
 router.post("/get-client-config", auth, async (req, res) => {
-  const { clientId } = req.body;
+  const { clientId } = req.user;
 
   if (!clientId) {
     return res.status(400).json({ error: "clientId is required" });
