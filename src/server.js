@@ -6,7 +6,7 @@ const app = express();
 
 // CORS — updated for Bearer tokens
 app.use(cors({
-  origin: "https://analytics.tairuzz.co.uk",
+ origin: ["https://analytics.tairuzz.co.uk", "http://localhost:5173"],
   methods: ["GET", "POST", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
