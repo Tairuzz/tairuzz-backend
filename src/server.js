@@ -1,4 +1,4 @@
-﻿import "./loadEnv.js";
+import "./loadEnv.js";
 import express from "express";
 import cors from "cors";
 
@@ -14,6 +14,7 @@ app.use(cors({
 app.options("*", cors());
 
 import embedConfigRouter from "./routes/embedConfig.js";
+import { requireAuth } from "./middleware/requireAuth.js";
 import loginRouter from "./routes/login.js";
 import getClientConfigRoute from "./getClientConfig.js";
 
@@ -22,7 +23,7 @@ app.use(express.json());
 // Routes
 app.use("/api", loginRouter);
 app.use("/api", getClientConfigRoute);
-app.use("/api/embed-config", embedConfigRouter);
+app.use("/api/embed-config", requireAuth, embedConfigRouter);
 
 // Health check
 app.get("/", (req, res) => {
